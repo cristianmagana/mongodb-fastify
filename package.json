@@ -1,0 +1,24 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "run": "npx ts-node index.js",
+    "bundle": "npm run format:write && npm run package",
+    "ci-test": "npx jest",
+    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "gts": "^5.3.0",
+    "loglevel": "^1.9.1",
+    "mongodb": "^6.12.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "typescript": "^5.0.0"
+  }
+}

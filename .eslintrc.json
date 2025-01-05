@@ -1,0 +1,11 @@
+{
+  "ignorePatterns": [
+    "build",
+    "node_modules",
+    "cdk.out"
+  ],
+  "extends": "./node_modules/gts/",
+  "env": {
+    "jest": true
+  }
+}
