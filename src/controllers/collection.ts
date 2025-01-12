@@ -9,7 +9,7 @@ export const createCollection = async (dbClient: MongoClient, collectionName: st
     }
 };
 
-export const modifyCollection = async (dbClient: MongoClient, collectionName: string, document: object): Promise<{success: boolean; message: string}> => {
+export const insertDocument = async (dbClient: MongoClient, collectionName: string, document: object): Promise<{success: boolean; message: string}> => {
     try {
         await dbClient.db().collection(collectionName).insertOne(document);
         return {success: true, message: `Document inserted into collection '${collectionName}' successfully.`};

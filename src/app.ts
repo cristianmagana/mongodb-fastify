@@ -1,16 +1,22 @@
 import {getInitializer} from './config/initializer';
+import {collectionRoutes} from './routes/route-manager';
 
 export const app = async () => {
     const initializer = await getInitializer('mongodb-api');
-    const {dbClient, log} = initializer;
-    log.debug('MongoDB client created:', dbClient);
-    log.info('Initializer complete.');
+    const {fastify, dbClient, log} = initializer;
+    log.info('Server started...');
 
-    addEventListener("fetch", (event) => {
-        const url = new URL(event.request.url);
+    fastify.register(
+        async instance => {
+            await collectionRoutes(instance, dbClient);
+        },
+        {prefix: '/api/collections'}
+    );
 
-        if (url.pathname === '/health') {
-            event.respondWith(new Response('OK', {status: 200}));
-        } else {
-            event.respondWith(new Response('Not Found', {status: 404}));
-        }
+    try {
+        await fastify.listen({port: 3000});
+    } catch (err) {
+        fastify.log.error(err);
+        throw new Error(`Error starting server: ${err}`);
+    }
+};

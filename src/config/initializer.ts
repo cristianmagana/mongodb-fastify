@@ -4,10 +4,14 @@ import {MongoClient, ServerApiVersion} from 'mongodb';
 import {getSecretService} from '../services/secret';
 import {SecretsManagerClient} from '@aws-sdk/client-secrets-manager';
 import {MONGO_SECRET_NAME} from './mongo';
+import Fastify from 'fastify';
 
 export const getInitializer = async (name: string): Promise<Initializer> => {
     const log = getLogger(name);
     log.info('Creating the Initializer object...');
+    const fastify = Fastify({
+        logger: true,
+    });
 
     const smClient = new SecretsManagerClient({});
     const mongoDBCreds = await getSecretService(smClient).getSecret(MONGO_SECRET_NAME);
@@ -24,5 +28,5 @@ export const getInitializer = async (name: string): Promise<Initializer> => {
         },
     });
 
-    return {dbClient, log};
+    return {dbClient, fastify, log};
 };

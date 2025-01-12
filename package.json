@@ -13,8 +13,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.723.0",
-    "@fastly/js-compute": "^3.28.0",
     "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
     "gts": "^5.3.0",
     "loglevel": "^1.9.2",
     "mongodb": "^6.12.0"
