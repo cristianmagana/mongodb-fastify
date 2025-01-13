@@ -6,7 +6,7 @@ A quick node HTTP server using [Fastify](https://fastify.dev/) which has REST en
 
 1. <b>Initialization of the service:</b> In this case we want the service requirements to be met and fulfilled upon initialization. In the event that the required clients or secrets are not available or created correctly, fail, and fail fast.
 
-2. <b> Separation of the business layer and HTTP layer<b>: This adheres to the single responsibility principal. Keeps the business logic and the http layer distinct. The business layer encapsulates the core application logic, handling data processing, transformations, and interactions with external systems (e.g., databases, services), where as the HTTP layer handles HTTP-specific concerns like parsing requests, validating payloads, managing routes, and sending HTTP responses.
+2. <b> Separation of the business layer and HTTP layer</b>: This adheres to the single responsibility principal. Keeps the business logic and the http layer distinct. The business layer encapsulates the core application logic, handling data processing, transformations, and interactions with external systems (e.g., databases, services), where as the HTTP layer handles HTTP-specific concerns like parsing requests, validating payloads, managing routes, and sending HTTP responses.
 
 ### How to run
 
