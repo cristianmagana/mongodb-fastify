@@ -3,5 +3,4 @@ export type MongoDatabaseCredentials = {
     password: string;
     database: string;
     host: string;
-    port: number;
 };

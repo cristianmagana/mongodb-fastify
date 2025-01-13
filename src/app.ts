@@ -1,5 +1,5 @@
 import {getInitializer} from './config/initializer';
-import {collectionRoutes} from './routes/route-manager';
+import {collectionRoutes} from './routes/collection-routes';
 
 export const app = async () => {
     const initializer = await getInitializer('mongodb-api');

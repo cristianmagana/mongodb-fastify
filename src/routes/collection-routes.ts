@@ -1,7 +1,17 @@
-import {FastifyRequest, FastifyReply} from 'fastify';
+import {FastifyRequest, FastifyReply, FastifyInstance} from 'fastify';
 import {MongoClient} from 'mongodb';
 
-export const createCollectionHandler = async (request: FastifyRequest, reply: FastifyReply, dbClient: MongoClient) => {
+export const collectionRoutes = async (fastify: FastifyInstance, dbClient: MongoClient): Promise<void> => {
+    fastify.post('/create', async (request: FastifyRequest, reply: FastifyReply) => {
+        await createCollectionHandler(request, reply, dbClient);
+    });
+
+    fastify.post('/insert', async (request: FastifyRequest, reply: FastifyReply) => {
+        await insertDocumentHandler(request, reply, dbClient);
+    });
+};
+
+const createCollectionHandler = async (request: FastifyRequest, reply: FastifyReply, dbClient: MongoClient) => {
     const {collectionName} = request.body as {collectionName: string};
 
     if (!collectionName) {
@@ -17,7 +27,7 @@ export const createCollectionHandler = async (request: FastifyRequest, reply: Fa
     }
 };
 
-export const insertDocumentHandler = async (request: FastifyRequest, reply: FastifyReply, dbClient: MongoClient) => {
+const insertDocumentHandler = async (request: FastifyRequest, reply: FastifyReply, dbClient: MongoClient) => {
     const {collectionName, document} = request.body as {collectionName: string; document: object};
 
     if (!collectionName || !document) {
