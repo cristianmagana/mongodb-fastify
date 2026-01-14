@@ -13,20 +13,31 @@ export const getInitializer = async (name: string): Promise<Initializer> => {
         logger: true,
     });
 
-    const smClient = new SecretsManagerClient({});
-    const mongoDBCreds = await getSecretService(smClient).getSecret(MONGO_SECRET_NAME);
+    let dbClient: MongoClient;
 
-    log.debug('MongoDB credentials:', JSON.stringify(mongoDBCreds, null, 2));
+    // Check for local MongoDB URI override
+    const localMongoUri = process.env.MONGODB_URI;
+    if (localMongoUri) {
+        log.info('Using local MongoDB URI from MONGODB_URI environment variable');
+        dbClient = new MongoClient(localMongoUri);
+    } else {
+        // Fall back to AWS Secrets Manager for cloud deployment
+        log.info('Fetching MongoDB credentials from AWS Secrets Manager');
+        const smClient = new SecretsManagerClient({});
+        const mongoDBCreds = await getSecretService(smClient).getSecret(MONGO_SECRET_NAME);
 
-    const databaseUri = `mongodb+srv://${mongoDBCreds.username}:${mongoDBCreds.password}@${mongoDBCreds.host}`;
+        log.debug('MongoDB credentials:', JSON.stringify(mongoDBCreds, null, 2));
 
-    const dbClient = new MongoClient(databaseUri, {
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        },
-    });
+        const databaseUri = `mongodb+srv://${mongoDBCreds.username}:${mongoDBCreds.password}@${mongoDBCreds.host}`;
+
+        dbClient = new MongoClient(databaseUri, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            },
+        });
+    }
 
     return {dbClient, fastify, log};
 };
